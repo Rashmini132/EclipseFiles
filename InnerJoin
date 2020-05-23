@@ -1,0 +1,32 @@
+package dbinsert;
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+
+public class UsingInnerJoin { 
+
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		String url="jdbc:oracle:thin:@localhost:1521:xe";
+		String username="system";
+		String password="manager";
+		Connection conn=DriverManager.getConnection(url,username,password);
+		if (conn!=null)
+		System.out.println("Connection Established");
+		Statement st=conn.createStatement();
+		ResultSet rs=st.executeQuery("select e.id, e.name, d.address, m.location from ((emp e inner join dept d on e.id=d.id) inner join manager m on e.id=m.id)");
+		
+		while(rs.next()) {
+			System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4));
+		}
+	}
+
+}
+
+
+
